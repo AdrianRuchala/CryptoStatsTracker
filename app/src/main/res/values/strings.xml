@@ -4,4 +4,6 @@
     <string name="nice_to_see_you">Nice to see you, log in to the app.</string>
     <string name="login_with_google">Log in with Google</string>
     <string name="error">Something went wrong. Try again.</string>
+    <string name="app_version">App version</string>
+    <string name="logout">Log out</string>
 </resources>
