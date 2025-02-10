@@ -8,9 +8,25 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.droidcode.apps.cryptostatstracker.settings.Profile
+import com.droidcode.apps.cryptostatstracker.settings.SettingsInfo
+import com.droidcode.apps.cryptostatstracker.settings.SettingsScreen
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 @Composable
-fun CryptoStatsTrackerNavHost(modifier: Modifier, navController: NavHostController) {
+fun CryptoStatsTrackerNavHost(
+    modifier: Modifier,
+    navController: NavHostController,
+    onLogout: () -> Unit
+) {
+
+    val userData = Profile(
+        name = Firebase.auth.currentUser?.displayName,
+        email = Firebase.auth.currentUser?.email,
+        profilePictureUrl = Firebase.auth.currentUser?.photoUrl.toString()
+    )
+
     NavHost(
         navController = navController,
         startDestination = Home.route,
@@ -25,11 +41,13 @@ fun CryptoStatsTrackerNavHost(modifier: Modifier, navController: NavHostControll
         }
 
         composable(Settings.route) {
-            //SettingsScreen
-        }
-
-        composable(Login.route) {
-            //LoginScreen
+            SettingsScreen(
+                Modifier,
+                SettingsInfo(
+                    Profile(userData.name, userData.email, userData.profilePictureUrl),
+                    "1.0"
+                )
+            ) { onLogout() }
         }
     }
 }

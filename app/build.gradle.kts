@@ -64,4 +64,6 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth)
     implementation(libs.play.services.auth)
+
+    implementation(libs.landscapist.glide)
 }

@@ -14,6 +14,7 @@ import com.droidcode.apps.cryptostatstracker.auth.AuthActivity
 import com.droidcode.apps.cryptostatstracker.ui.theme.CryptoStatsTrackerTheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.auth.ktx.auth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,9 +36,17 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen(Modifier, navController)
+                    MainScreen(Modifier, navController) { logout() }
                 }
             }
+        }
+    }
+
+    private fun logout() {
+        com.google.firebase.ktx.Firebase.auth.signOut()
+        Intent(this, AuthActivity::class.java).apply {
+            startActivity(this)
+            finish()
         }
     }
 }
