@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "735197629747-sk962hj8cva7ijoc05gg467u07jv690k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.droidcode.apps.cryptostatstracker",
+            "certificate_hash": "b0dc146e489069ee27d3cedd34d51535e5aba7fa"
+          }
+        },
+        {
           "client_id": "735197629747-9kjb913e2kfm3c41btsdnfdj3vukpvt4.apps.googleusercontent.com",
           "client_type": 3
         }
