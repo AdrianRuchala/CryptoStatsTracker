@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.droidcode.apps.cryptostatstracker.auth.AuthActivity
 import com.droidcode.apps.cryptostatstracker.ui.theme.CryptoStatsTrackerTheme
@@ -30,13 +31,14 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val navController = rememberNavController()
+            val viewModel: CryptoViewModel = viewModel()
 
             CryptoStatsTrackerTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen(Modifier, navController) { logout() }
+                    MainScreen(Modifier, navController, viewModel) { logout() }
                 }
             }
         }

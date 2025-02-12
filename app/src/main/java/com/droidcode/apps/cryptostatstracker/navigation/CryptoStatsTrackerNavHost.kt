@@ -8,6 +8,8 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.droidcode.apps.cryptostatstracker.CryptoViewModel
+import com.droidcode.apps.cryptostatstracker.HomeScreen
 import com.droidcode.apps.cryptostatstracker.settings.Profile
 import com.droidcode.apps.cryptostatstracker.settings.SettingsInfo
 import com.droidcode.apps.cryptostatstracker.settings.SettingsScreen
@@ -18,6 +20,7 @@ import com.google.firebase.auth.auth
 fun CryptoStatsTrackerNavHost(
     modifier: Modifier,
     navController: NavHostController,
+    viewModel: CryptoViewModel,
     onLogout: () -> Unit
 ) {
 
@@ -33,7 +36,7 @@ fun CryptoStatsTrackerNavHost(
         modifier = modifier.padding()
     ) {
         composable(Home.route) {
-            //HomeScreen
+            HomeScreen(Modifier, viewModel)
         }
 
         composable(Favourites.route) {

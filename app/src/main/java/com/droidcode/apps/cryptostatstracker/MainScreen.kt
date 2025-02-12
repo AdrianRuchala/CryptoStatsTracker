@@ -17,11 +17,20 @@ import com.droidcode.apps.cryptostatstracker.navigation.Login
 import com.droidcode.apps.cryptostatstracker.navigation.navigateSingleTopTo
 
 @Composable
-fun MainScreen(modifier: Modifier, navController: NavHostController, onLogout: () -> Unit) {
+fun MainScreen(
+    modifier: Modifier,
+    navController: NavHostController,
+    viewModel: CryptoViewModel,
+    onLogout: () -> Unit
+) {
     Scaffold(
         bottomBar = { CryptoStatsTrackerNavigationBar(navController) }
     ) { padding ->
-        CryptoStatsTrackerNavHost(modifier.padding(padding), navController) { onLogout() }
+        CryptoStatsTrackerNavHost(
+            modifier.padding(padding),
+            navController,
+            viewModel
+        ) { onLogout() }
     }
 }
 
