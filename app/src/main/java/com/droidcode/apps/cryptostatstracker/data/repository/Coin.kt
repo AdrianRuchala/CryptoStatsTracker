@@ -1,4 +1,4 @@
-package com.droidcode.apps.cryptostatstracker.data
+package com.droidcode.apps.cryptostatstracker.data.repository
 
 data class Coin (
     val id: String?,

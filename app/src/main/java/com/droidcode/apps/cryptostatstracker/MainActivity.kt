@@ -9,14 +9,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.droidcode.apps.cryptostatstracker.auth.AuthActivity
 import com.droidcode.apps.cryptostatstracker.ui.theme.CryptoStatsTrackerTheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.auth.ktx.auth
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val navController = rememberNavController()
-            val viewModel: CryptoViewModel = viewModel()
+            val viewModel = hiltViewModel<CryptoViewModel>()
 
             CryptoStatsTrackerTheme {
                 Surface(
