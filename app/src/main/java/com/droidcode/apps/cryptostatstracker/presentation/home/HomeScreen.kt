@@ -33,13 +33,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.droidcode.apps.cryptostatstracker.R
 import com.droidcode.apps.cryptostatstracker.domain.models.Coin
+import com.droidcode.apps.cryptostatstracker.presentation.crypto.CryptoState
 import com.droidcode.apps.cryptostatstracker.presentation.viewmodels.CryptoViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun HomeScreen(modifier: Modifier, viewModel: CryptoViewModel) {
-    val coins by viewModel.coins.observeAsState()
+    val cryptoState by viewModel.coins.observeAsState()
     var searchValue by remember { mutableStateOf("") }
+    val coins = when (cryptoState) {
+        is CryptoState.Success -> (cryptoState as CryptoState.Success).coins
+        else -> emptyList()
+    }
 
     LazyColumn(
         modifier
@@ -102,7 +107,7 @@ fun HomeScreen(modifier: Modifier, viewModel: CryptoViewModel) {
             }
         }
 
-        items(coins ?: emptyList()) { coin ->
+        items(coins) { coin ->
             CoinPlate(modifier, coin)
         }
     }
