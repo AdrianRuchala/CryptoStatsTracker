@@ -1,4 +1,4 @@
-package com.droidcode.apps.cryptostatstracker.settings
+package com.droidcode.apps.cryptostatstracker.presentation.settings
 
 data class Profile (
     val name: String?,
