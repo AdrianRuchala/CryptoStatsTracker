@@ -8,6 +8,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.droidcode.apps.cryptostatstracker.presentation.details.CoinDetailsScreen
 import com.droidcode.apps.cryptostatstracker.presentation.viewmodels.CryptoViewModel
 import com.droidcode.apps.cryptostatstracker.presentation.home.HomeScreen
 import com.droidcode.apps.cryptostatstracker.presentation.settings.Profile
@@ -36,7 +37,10 @@ fun CryptoStatsTrackerNavHost(
         modifier = modifier.padding()
     ) {
         composable(Home.route) {
-            HomeScreen(Modifier, viewModel)
+            HomeScreen(
+                Modifier,
+                viewModel
+            ) { coinId -> navController.navigateSingleTopTo("coinDetails?coinId=$coinId") }
         }
 
         composable(Favourites.route) {
@@ -51,6 +55,11 @@ fun CryptoStatsTrackerNavHost(
                     "1.0"
                 )
             ) { onLogout() }
+        }
+
+        composable(CoinDetails.route) { backStackEntry ->
+            val coinId = backStackEntry.arguments?.getString("coinId") ?: ""
+            CoinDetailsScreen(Modifier, coinId, viewModel) { navController.navigateUp() }
         }
     }
 }
