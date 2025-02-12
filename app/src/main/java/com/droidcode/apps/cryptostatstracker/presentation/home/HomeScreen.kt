@@ -2,6 +2,7 @@ package com.droidcode.apps.cryptostatstracker.presentation.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -33,12 +35,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.droidcode.apps.cryptostatstracker.R
 import com.droidcode.apps.cryptostatstracker.domain.models.Coin
+import com.droidcode.apps.cryptostatstracker.presentation.crypto.CryptoIntent
 import com.droidcode.apps.cryptostatstracker.presentation.crypto.CryptoState
 import com.droidcode.apps.cryptostatstracker.presentation.viewmodels.CryptoViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun HomeScreen(modifier: Modifier, viewModel: CryptoViewModel) {
+fun HomeScreen(
+    modifier: Modifier,
+    viewModel: CryptoViewModel,
+    navigateToCoinDetails: (String) -> Unit
+) {
+
+    LaunchedEffect(Unit) {
+        viewModel.onAction(CryptoIntent.LoadTop10Crypto)
+    }
+
     val cryptoState by viewModel.coins.observeAsState()
     var searchValue by remember { mutableStateOf("") }
     val coins = when (cryptoState) {
@@ -108,13 +120,13 @@ fun HomeScreen(modifier: Modifier, viewModel: CryptoViewModel) {
         }
 
         items(coins) { coin ->
-            CoinPlate(modifier, coin)
+            CoinPlate(modifier, coin) { navigateToCoinDetails(coin.id.toString()) }
         }
     }
 }
 
 @Composable
-fun CoinPlate(modifier: Modifier, coinState: Coin) {
+fun CoinPlate(modifier: Modifier, coinState: Coin, navigateToCoinDetails: (String) -> Unit) {
     Row(
         modifier
             .fillMaxWidth()
@@ -123,7 +135,8 @@ fun CoinPlate(modifier: Modifier, coinState: Coin) {
                 color = MaterialTheme.colorScheme.secondaryContainer,
                 shape = MaterialTheme.shapes.small
             )
-            .padding(4.dp),
+            .padding(4.dp)
+            .clickable { navigateToCoinDetails(coinState.id.toString()) },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         GlideImage(

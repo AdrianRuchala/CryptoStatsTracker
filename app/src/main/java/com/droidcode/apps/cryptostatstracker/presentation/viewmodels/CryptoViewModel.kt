@@ -17,11 +17,11 @@ class CryptoViewModel @Inject constructor(
 ) : ViewModel() {
     private val _coinState = MutableLiveData<CryptoState>()
     val coins: LiveData<CryptoState> get() = _coinState
-    //var coins = mutableStateOf(emptyList<Coin>())
 
     fun onAction(action: CryptoIntent) {
         when(action){
             is CryptoIntent.LoadTop10Crypto -> loadTop10Crypto()
+            is CryptoIntent.LoadCoinData -> loadCoinData(action.coinId)
         }
     }
 
@@ -45,4 +45,19 @@ class CryptoViewModel @Inject constructor(
         }
     }
 
+    private fun loadCoinData(coinId: String){
+        viewModelScope.launch {
+            _coinState.value = CryptoState.Loading
+            try {
+                val coin = repository.getCoinData(coinId)
+                if (coin != null) {
+                    _coinState.value = CryptoState.SingleCoinSuccess(coin)
+                } else {
+                    _coinState.value = CryptoState.Error("No data found for $coinId")
+                }
+            } catch (e: Exception) {
+                _coinState.value = CryptoState.Error("Error: ${e.message}")
+            }
+        }
+    }
 }
