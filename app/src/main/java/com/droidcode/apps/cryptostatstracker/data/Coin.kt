@@ -5,5 +5,6 @@ data class Coin (
     val symbol: String?,
     val name: String?,
     val image: String?,
-    val price: Double?
+    val current_price: Double?,
+    val market_cap_change_percentage_24h: Double?
 )

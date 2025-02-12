@@ -6,4 +6,9 @@
     <string name="error">Something went wrong. Try again.</string>
     <string name="app_version">App version</string>
     <string name="logout">Log out</string>
+    <string name="home_headline">Top 10 highest holdings</string>
+    <string name="press_to_see_details">Press to see details</string>
+    <string name="search_for_coin">Search for a coin</string>
+    <string name="enter_coin_name">Enter coin name</string>
+    <string name="search">Search</string>
 </resources>
