@@ -66,4 +66,16 @@ dependencies {
     implementation(libs.play.services.auth)
 
     implementation(libs.landscapist.glide)
+
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.runtime.livedata)
+
+    implementation(libs.retrofit)
+    implementation(libs.okhttp)
+
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.converter.moshi)
+
+    implementation(libs.logging.interceptor)
 }
