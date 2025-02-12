@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.droidcode.apps.cryptostatstracker.auth.AuthActivity
+import com.droidcode.apps.cryptostatstracker.presentation.viewmodels.CryptoViewModel
 import com.droidcode.apps.cryptostatstracker.ui.theme.CryptoStatsTrackerTheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth

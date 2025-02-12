@@ -1,6 +1,6 @@
 package com.droidcode.apps.cryptostatstracker.data.remote
 
-import com.droidcode.apps.cryptostatstracker.data.repository.Coin
+import com.droidcode.apps.cryptostatstracker.domain.models.Coin
 import retrofit2.http.GET
 
 interface CryptoApi {

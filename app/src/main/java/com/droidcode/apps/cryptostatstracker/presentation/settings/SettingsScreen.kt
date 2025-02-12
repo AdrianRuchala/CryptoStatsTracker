@@ -1,4 +1,4 @@
-package com.droidcode.apps.cryptostatstracker.settings
+package com.droidcode.apps.cryptostatstracker.presentation.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
