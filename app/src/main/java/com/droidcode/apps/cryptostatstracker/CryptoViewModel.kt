@@ -3,16 +3,21 @@ package com.droidcode.apps.cryptostatstracker
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.droidcode.apps.cryptostatstracker.data.Coin
-import com.droidcode.apps.cryptostatstracker.di.CryptoStatsTrackerModule
+import com.droidcode.apps.cryptostatstracker.data.repository.Coin
+import com.droidcode.apps.cryptostatstracker.data.repository.CryptoRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CryptoViewModel : ViewModel() {
+@HiltViewModel
+class CryptoViewModel @Inject constructor(
+    private val repository: CryptoRepository
+) : ViewModel() {
     var coins = mutableStateOf(emptyList<Coin>())
 
-    fun get10Coins() {
+    init {
         viewModelScope.launch {
-            coins.value = CryptoStatsTrackerModule.cryptoStatsTrackerApiService.get10Coins()
+            coins.value = repository.get10Coins()
         }
     }
 }

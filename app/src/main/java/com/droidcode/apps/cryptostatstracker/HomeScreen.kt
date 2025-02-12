@@ -30,14 +30,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.droidcode.apps.cryptostatstracker.data.Coin
+import com.droidcode.apps.cryptostatstracker.data.repository.Coin
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun HomeScreen(modifier: Modifier, viewModel: CryptoViewModel) {
     var searchValue by remember { mutableStateOf("") }
 
-    viewModel.get10Coins()
     LazyColumn(
         modifier
             .fillMaxSize()
