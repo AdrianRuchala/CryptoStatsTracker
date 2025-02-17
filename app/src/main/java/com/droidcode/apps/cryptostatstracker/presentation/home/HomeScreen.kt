@@ -24,7 +24,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -51,7 +50,7 @@ fun HomeScreen(
         viewModel.onAction(CryptoIntent.LoadTop10Crypto)
     }
 
-    val cryptoState by viewModel.coins.observeAsState()
+    val cryptoState by viewModel.coins
     var searchValue by remember { mutableStateOf("") }
     val coins = when (cryptoState) {
         is CryptoState.Success -> (cryptoState as CryptoState.Success).coins

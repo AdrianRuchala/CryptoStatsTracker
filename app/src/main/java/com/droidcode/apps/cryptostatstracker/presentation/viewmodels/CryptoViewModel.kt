@@ -1,7 +1,6 @@
 package com.droidcode.apps.cryptostatstracker.presentation.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.droidcode.apps.cryptostatstracker.domain.repository.CryptoRepository
@@ -15,8 +14,8 @@ import javax.inject.Inject
 class CryptoViewModel @Inject constructor(
     private val repository: CryptoRepository
 ) : ViewModel() {
-    private val _coinState = MutableLiveData<CryptoState>()
-    val coins: LiveData<CryptoState> get() = _coinState
+    private val _coinState = mutableStateOf<CryptoState>(CryptoState.Loading)
+    val coins = (_coinState)
 
     fun onAction(action: CryptoIntent) {
         when(action){
