@@ -207,7 +207,7 @@ private fun CoinData(modifier: Modifier, coinData: CoinDetails?) {
                     style = MaterialTheme.typography.labelLarge
                 )
 
-                Text(coinCurrentPrice, style = MaterialTheme.typography.titleMedium)
+                Text(text = "$${coinCurrentPrice}", style = MaterialTheme.typography.titleMedium)
             }
         }
 
@@ -233,7 +233,7 @@ private fun CoinData(modifier: Modifier, coinData: CoinDetails?) {
                     style = MaterialTheme.typography.labelLarge
                 )
 
-                Text(coinMarketCap, style = MaterialTheme.typography.titleMedium)
+                Text(text = "$${coinMarketCap}", style = MaterialTheme.typography.titleMedium)
             }
 
             Column(
@@ -326,11 +326,61 @@ private fun CoinData(modifier: Modifier, coinData: CoinDetails?) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
+                    stringResource(R.string.coin_fully_dilutedValuation),
+                    style = MaterialTheme.typography.labelLarge
+                )
+
+                Text(
+                    text = "$${coinFullyDilutedValuation}",
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+
+            Column(
+                modifier
+                    .padding(8.dp)
+                    .border(2.dp, MaterialTheme.colorScheme.primary, MaterialTheme.shapes.medium)
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        shape = MaterialTheme.shapes.medium
+                    )
+                    .size(180.dp, 100.dp)
+                    .padding(4.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    stringResource(R.string.coin_total_volume),
+                    style = MaterialTheme.typography.labelLarge
+                )
+
+                Text(text = "$${coinTotalVolume}", style = MaterialTheme.typography.titleMedium)
+            }
+        }
+
+        Row(
+            modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Column(
+                modifier
+                    .padding(8.dp)
+                    .border(2.dp, MaterialTheme.colorScheme.primary, MaterialTheme.shapes.medium)
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        shape = MaterialTheme.shapes.medium
+                    )
+                    .size(180.dp, 100.dp)
+                    .padding(4.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
                     stringResource(R.string.coin_high_24h),
                     style = MaterialTheme.typography.labelLarge
                 )
 
-                Text(coinHigh24h, style = MaterialTheme.typography.titleMedium)
+                Text(text = "$${coinHigh24h}", style = MaterialTheme.typography.titleMedium)
             }
 
             Column(
@@ -351,7 +401,7 @@ private fun CoinData(modifier: Modifier, coinData: CoinDetails?) {
                     style = MaterialTheme.typography.labelLarge
                 )
 
-                Text(coinLow24h, style = MaterialTheme.typography.titleMedium)
+                Text(text = "$${coinLow24h}", style = MaterialTheme.typography.titleMedium)
             }
         }
 
@@ -398,7 +448,10 @@ private fun CoinData(modifier: Modifier, coinData: CoinDetails?) {
                     style = MaterialTheme.typography.labelLarge
                 )
 
-                Text(text = "${coinPriceChangePercentage24h}%", style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = "${coinPriceChangePercentage24h}%",
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
         }
 
@@ -489,7 +542,7 @@ private fun CoinData(modifier: Modifier, coinData: CoinDetails?) {
             ) {
                 Text(stringResource(R.string.coin_ath), style = MaterialTheme.typography.labelLarge)
 
-                Text(coinAth, style = MaterialTheme.typography.titleMedium)
+                Text(text = "$${coinAth}", style = MaterialTheme.typography.titleMedium)
             }
         }
 
@@ -515,7 +568,10 @@ private fun CoinData(modifier: Modifier, coinData: CoinDetails?) {
                     style = MaterialTheme.typography.labelLarge
                 )
 
-                Text(text = "${coinAthChangePercentage}%", style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = "${coinAthChangePercentage}%",
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
 
             Column(
@@ -559,7 +615,7 @@ private fun CoinData(modifier: Modifier, coinData: CoinDetails?) {
             ) {
                 Text(stringResource(R.string.coin_atl), style = MaterialTheme.typography.labelLarge)
 
-                Text(coinAtl, style = MaterialTheme.typography.titleMedium)
+                Text(text = "$${coinAtl}", style = MaterialTheme.typography.titleMedium)
             }
 
             Column(
@@ -580,7 +636,10 @@ private fun CoinData(modifier: Modifier, coinData: CoinDetails?) {
                     style = MaterialTheme.typography.labelLarge
                 )
 
-                Text(text = "${coinAtlChangePercentage}%", style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = "${coinAtlChangePercentage}%",
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
         }
 
@@ -628,4 +687,5 @@ private fun CoinData(modifier: Modifier, coinData: CoinDetails?) {
             }
         }
     }
+    Text(stringResource(R.string.coin_last_updated) + " $coinLastUpdated", modifier.padding(8.dp))
 }
