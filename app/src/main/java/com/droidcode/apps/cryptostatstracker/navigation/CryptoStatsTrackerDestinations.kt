@@ -26,6 +26,10 @@ object Login : CryptoStatsTrackerDestinations {
     override val route = "login"
 }
 
+object CoinDetails : CryptoStatsTrackerDestinations {
+    override val route = "coinDetails?coinId={coinId}"
+}
+
 sealed class CryptoStatsTrackerNavItems(
     val route: String,
     val icon: ImageVector,
