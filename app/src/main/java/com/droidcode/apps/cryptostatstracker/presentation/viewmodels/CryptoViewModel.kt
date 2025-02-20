@@ -18,17 +18,18 @@ class CryptoViewModel @Inject constructor(
     val coins = (_coinState)
 
     fun onAction(action: CryptoIntent) {
-        when(action){
+        when (action) {
             is CryptoIntent.LoadTop10Crypto -> loadTop10Crypto()
             is CryptoIntent.LoadCoinData -> loadCoinData(action.coinId)
+            is CryptoIntent.IsCoinExisting -> isCoinExisting(
+                action.coinId,
+                action.onSuccess,
+                action.onError
+            )
         }
     }
 
-    init {
-        loadTop10Crypto()
-    }
-
-    private fun loadTop10Crypto(){
+    private fun loadTop10Crypto() {
         viewModelScope.launch {
             _coinState.value = CryptoState.Loading
             try {
@@ -44,7 +45,7 @@ class CryptoViewModel @Inject constructor(
         }
     }
 
-    private fun loadCoinData(coinId: String){
+    private fun loadCoinData(coinId: String) {
         viewModelScope.launch {
             _coinState.value = CryptoState.Loading
             try {
@@ -56,6 +57,26 @@ class CryptoViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 _coinState.value = CryptoState.Error("Error: ${e.message}")
+            }
+        }
+    }
+
+    private fun isCoinExisting(
+        coinId: String,
+        onSuccess: (String) -> Unit,
+        onError: (Boolean) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                val coin = repository.getCoinData(coinId)
+                if (coin != null) {
+                    onError(false)
+                    onSuccess(coinId)
+                } else {
+                    onError(true)
+                }
+            } catch (e: Exception) {
+                onError(true)
             }
         }
     }

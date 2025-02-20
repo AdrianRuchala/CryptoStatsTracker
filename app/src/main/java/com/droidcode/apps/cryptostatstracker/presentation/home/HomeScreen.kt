@@ -1,5 +1,6 @@
 package com.droidcode.apps.cryptostatstracker.presentation.home
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -30,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.droidcode.apps.cryptostatstracker.R
@@ -56,6 +58,13 @@ fun HomeScreen(
         is CryptoState.Success -> (cryptoState as CryptoState.Success).coins
         else -> emptyList()
     }
+    val error = remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    if (error.value) {
+        Toast.makeText(context, stringResource(R.string.coin_search_error), Toast.LENGTH_LONG)
+            .show()
+    }
 
     LazyColumn(
         modifier
@@ -79,12 +88,17 @@ fun HomeScreen(
                     value = searchValue,
                     onValueChange = { searchValue = it },
                     modifier.fillMaxWidth(),
-                    placeholder = { Text(stringResource(R.string.enter_coin_name)) }
+                    placeholder = { Text(stringResource(R.string.enter_coin_name)) },
+                    isError = error.value
                 )
 
                 Button(
                     onClick = {
-                        //TODO
+                        viewModel.onAction(
+                            CryptoIntent.IsCoinExisting(searchValue,
+                                { navigateToCoinDetails(searchValue) },
+                                { isError -> error.value = isError })
+                        )
                     }
                 ) {
                     Row(

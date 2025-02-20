@@ -35,4 +35,5 @@
     <string name="coin_atl_date">ATL date:</string>
     <string name="coin_roi">Return on Investment:</string>
     <string name="coin_last_updated">Last updated:</string>
+    <string name="coin_search_error">Coin doesn\'t exist. Try again.</string>
 </resources>
