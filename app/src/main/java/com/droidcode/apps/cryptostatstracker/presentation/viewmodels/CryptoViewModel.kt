@@ -26,6 +26,19 @@ class CryptoViewModel @Inject constructor(
                 action.onSuccess,
                 action.onError
             )
+
+            is CryptoIntent.AddCoinToFavourites -> addCoinToFavourites(action.userId, action.coinId)
+            is CryptoIntent.CheckIfCoinIsInFavourites -> checkIfCoinIsInFavourites(
+                action.userId,
+                action.coinId,
+                action.isFavourite
+            )
+
+            is CryptoIntent.RemoveCoinFromFavourites -> removeCoinFromFavourites(
+                action.userId,
+                action.coinId,
+                action.onSuccess
+            )
         }
     }
 
@@ -80,4 +93,43 @@ class CryptoViewModel @Inject constructor(
             }
         }
     }
+
+    private fun addCoinToFavourites(userId: String, coinId: String) {
+        viewModelScope.launch {
+            try {
+                repository.addCoinToFavourites(userId, coinId)
+            } catch (e: Exception) {
+                println(e)
+            }
+        }
+    }
+
+    private fun checkIfCoinIsInFavourites(
+        userId: String,
+        coinId: String,
+        isInFavourites: (Boolean) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                repository.checkIfCoinIsInFavourites(userId, coinId, isInFavourites)
+            } catch (e: Exception) {
+                println(e)
+            }
+        }
+    }
+
+    private fun removeCoinFromFavourites(
+        userId: String,
+        coinId: String,
+        onSuccess: (Boolean) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                repository.removeCoinFromFavourites(userId, coinId, onSuccess)
+            } catch (e: Exception) {
+                println(e)
+            }
+        }
+    }
+
 }

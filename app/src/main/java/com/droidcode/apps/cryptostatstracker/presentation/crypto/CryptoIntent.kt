@@ -8,4 +8,17 @@ sealed class CryptoIntent {
         val onSuccess: (String) -> Unit,
         val onError: (Boolean) -> Unit
     ) : CryptoIntent()
+
+    data class AddCoinToFavourites(val userId: String, val coinId: String) : CryptoIntent()
+    data class CheckIfCoinIsInFavourites(
+        val userId: String,
+        val coinId: String,
+        val isFavourite: (Boolean) -> Unit
+    ) : CryptoIntent()
+
+    data class RemoveCoinFromFavourites(
+        val userId: String,
+        val coinId: String,
+        val onSuccess: (Boolean) -> Unit
+    ) : CryptoIntent()
 }
