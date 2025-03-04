@@ -2,6 +2,7 @@ package com.droidcode.apps.cryptostatstracker.domain.repository
 
 import com.droidcode.apps.cryptostatstracker.domain.models.Coin
 import com.droidcode.apps.cryptostatstracker.domain.models.CoinDetails
+import com.droidcode.apps.cryptostatstracker.domain.models.FavouriteCoin
 
 interface CryptoRepository {
     suspend fun get10Coins(): List<Coin>
@@ -18,4 +19,10 @@ interface CryptoRepository {
         coinId: String,
         onSuccess: (Boolean) -> Unit
     )
+
+    suspend fun getFavouriteCoinsIds(
+        userId: String, favouriteCoinList: MutableList<FavouriteCoin>
+    )
+
+    suspend fun getFavouriteCoins(favouriteCoinIds: MutableList<FavouriteCoin>): List<CoinDetails>
 }

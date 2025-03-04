@@ -36,4 +36,5 @@
     <string name="coin_roi">Return on Investment:</string>
     <string name="coin_last_updated">Last updated:</string>
     <string name="coin_search_error">Coin doesn\'t exist. Try again.</string>
+    <string name="favourites_headline">Your favourite coins</string>
 </resources>

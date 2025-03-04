@@ -20,5 +20,5 @@ data class MarketData(
     val atl: Currency?,
     val atl_change_percentage: Currency?,
     val atl_date: DateArea?,
-    val roi: Double?,
+    val roi: Roi?,
 )
