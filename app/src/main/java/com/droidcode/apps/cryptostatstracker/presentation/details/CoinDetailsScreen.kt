@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,12 +13,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +35,8 @@ import com.droidcode.apps.cryptostatstracker.domain.models.CoinDetails
 import com.droidcode.apps.cryptostatstracker.presentation.crypto.CryptoIntent
 import com.droidcode.apps.cryptostatstracker.presentation.crypto.CryptoState
 import com.droidcode.apps.cryptostatstracker.presentation.viewmodels.CryptoViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
@@ -42,11 +46,18 @@ fun CoinDetailsScreen(
     viewModel: CryptoViewModel,
     onNavigateUp: () -> Unit
 ) {
+    val userId = Firebase.auth.currentUser?.uid.toString()
+    val isInFavourite = remember { mutableStateOf(false) }
+
     LaunchedEffect(coinId) {
         viewModel.onAction(CryptoIntent.LoadCoinData(coinId))
+        viewModel.onAction(CryptoIntent.CheckIfCoinIsInFavourites(userId, coinId) { isFavourite ->
+            isInFavourite.value = isFavourite
+        } )
     }
     val cryptoState by viewModel.coins
     val coinData = (cryptoState as? CryptoState.SingleCoinSuccess)?.coin
+
 
     var coinName by remember { mutableStateOf("") }
     var coinImage by remember { mutableStateOf("") }
@@ -62,7 +73,7 @@ fun CoinDetailsScreen(
     ) {
 
         item {
-            TopBar(modifier, coinName) { onNavigateUp() }
+            TopBar(modifier, coinName, coinId, userId, isInFavourite, viewModel) { onNavigateUp() }
         }
 
         item {
@@ -73,7 +84,15 @@ fun CoinDetailsScreen(
 }
 
 @Composable
-private fun TopBar(modifier: Modifier, coinName: String, onNavigateUp: () -> Unit) {
+private fun TopBar(
+    modifier: Modifier,
+    coinName: String,
+    coinId: String,
+    userId: String,
+    isInFavourite: MutableState<Boolean>,
+    viewModel: CryptoViewModel,
+    onNavigateUp: () -> Unit
+) {
     Row(
         modifier
             .fillMaxWidth()
@@ -97,7 +116,32 @@ private fun TopBar(modifier: Modifier, coinName: String, onNavigateUp: () -> Uni
             style = MaterialTheme.typography.titleMedium,
         )
 
-        Spacer(modifier.size(36.dp))
+        if(isInFavourite.value){
+            Icon(
+                imageVector = Icons.Filled.Favorite,
+                contentDescription = null,
+                modifier = Modifier
+                    .clickable {
+                        viewModel.onAction(CryptoIntent.RemoveCoinFromFavourites(userId,coinId)
+                        {
+                                isFavourite -> isInFavourite.value = isFavourite
+                        })
+                    }
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Outlined.FavoriteBorder,
+                contentDescription = null,
+                modifier = Modifier
+                    .clickable {
+                        viewModel.onAction(CryptoIntent.AddCoinToFavourites(userId, coinId))
+                        viewModel.onAction(CryptoIntent.CheckIfCoinIsInFavourites(userId, coinId,)
+                        {
+                            isFavourite -> isInFavourite.value = isFavourite
+                        })
+                    }
+            )
+        }
     }
     HorizontalDivider(modifier = Modifier.padding(top = 8.dp, bottom = 8.dp))
 }
