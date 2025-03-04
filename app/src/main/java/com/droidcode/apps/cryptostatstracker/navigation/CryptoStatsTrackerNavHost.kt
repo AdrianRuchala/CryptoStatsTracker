@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.droidcode.apps.cryptostatstracker.presentation.details.CoinDetailsScreen
+import com.droidcode.apps.cryptostatstracker.presentation.favourites.FavouritesScreen
 import com.droidcode.apps.cryptostatstracker.presentation.viewmodels.CryptoViewModel
 import com.droidcode.apps.cryptostatstracker.presentation.home.HomeScreen
 import com.droidcode.apps.cryptostatstracker.presentation.settings.Profile
@@ -44,7 +45,10 @@ fun CryptoStatsTrackerNavHost(
         }
 
         composable(Favourites.route) {
-            //FavouritesScreen
+            FavouritesScreen(
+                Modifier,
+                viewModel
+            ) { coinId -> navController.navigateSingleTopTo("coinDetails?coinId=$coinId") }
         }
 
         composable(Settings.route) {

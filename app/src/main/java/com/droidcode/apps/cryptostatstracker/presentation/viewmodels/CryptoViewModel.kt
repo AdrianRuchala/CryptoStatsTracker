@@ -3,6 +3,8 @@ package com.droidcode.apps.cryptostatstracker.presentation.viewmodels
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.droidcode.apps.cryptostatstracker.domain.models.CoinDetails
+import com.droidcode.apps.cryptostatstracker.domain.models.FavouriteCoin
 import com.droidcode.apps.cryptostatstracker.domain.repository.CryptoRepository
 import com.droidcode.apps.cryptostatstracker.presentation.crypto.CryptoIntent
 import com.droidcode.apps.cryptostatstracker.presentation.crypto.CryptoState
@@ -39,6 +41,8 @@ class CryptoViewModel @Inject constructor(
                 action.coinId,
                 action.onSuccess
             )
+
+            is CryptoIntent.LoadFavouriteCoins -> loadFavouriteCoinsIds(action.userId)
         }
     }
 
@@ -132,4 +136,33 @@ class CryptoViewModel @Inject constructor(
         }
     }
 
+    private fun loadFavouriteCoinsIds(userId: String) {
+        viewModelScope.launch {
+            val favouriteCoinsList = mutableListOf<FavouriteCoin>()
+            repository.getFavouriteCoinsIds(userId, favouriteCoinsList)
+            loadFavouritesCrypto(favouriteCoinsList)
+        }
+    }
+
+    private fun loadFavouritesCrypto(favouriteCoinsIds: MutableList<FavouriteCoin>) {
+        viewModelScope.launch {
+            _coinState.value = CryptoState.Loading
+            try {
+                if (favouriteCoinsIds.isNotEmpty()) {
+                    val coinList = mutableListOf<CoinDetails>()
+
+                    favouriteCoinsIds.forEach {
+                        coinList.add(repository.getCoinData(it.coinId))
+                    }
+
+                    _coinState.value =
+                        CryptoState.FavouriteCoinsSuccess(coinList.sortedBy { it.market_cap_rank })
+                } else {
+                    _coinState.value = CryptoState.Empty
+                }
+            } catch (e: Exception) {
+                _coinState.value = CryptoState.Error("Error: ${e.message}")
+            }
+        }
+    }
 }

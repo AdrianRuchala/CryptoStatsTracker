@@ -3,8 +3,10 @@ package com.droidcode.apps.cryptostatstracker.data.repository
 import com.droidcode.apps.cryptostatstracker.data.remote.CryptoApi
 import com.droidcode.apps.cryptostatstracker.domain.models.Coin
 import com.droidcode.apps.cryptostatstracker.domain.models.CoinDetails
+import com.droidcode.apps.cryptostatstracker.domain.models.FavouriteCoin
 import com.droidcode.apps.cryptostatstracker.domain.repository.CryptoRepository
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
@@ -59,5 +61,26 @@ class CryptoRepositoryImpl @Inject constructor(
                     }
                 }
             }
+    }
+
+    override suspend fun getFavouriteCoinsIds(
+        userId: String,
+        favouriteCoinList: MutableList<FavouriteCoin>
+    ) {
+        val snapshot = database.child(userId).child("Favourites").get().await()
+        snapshot.children.forEach { child ->
+            val coinId = child.value.toString()
+            favouriteCoinList.add(FavouriteCoin(coinId))
+        }
+    }
+
+
+    override suspend fun getFavouriteCoins(favouriteCoinIds: MutableList<FavouriteCoin>): List<CoinDetails> {
+        val favouriteCoinsList = mutableListOf<CoinDetails>()
+        favouriteCoinIds.forEach {
+            val coin = api.getCoinData(it.coinId)
+            favouriteCoinsList.add(coin)
+        }
+        return favouriteCoinsList
     }
 }

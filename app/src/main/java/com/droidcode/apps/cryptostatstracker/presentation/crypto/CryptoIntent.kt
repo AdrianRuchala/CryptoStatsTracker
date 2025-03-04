@@ -21,4 +21,6 @@ sealed class CryptoIntent {
         val coinId: String,
         val onSuccess: (Boolean) -> Unit
     ) : CryptoIntent()
+
+    data class LoadFavouriteCoins(val userId: String) : CryptoIntent()
 }
