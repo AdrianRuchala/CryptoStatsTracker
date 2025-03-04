@@ -9,6 +9,8 @@ Users can log in using their Google account, add coins to their favorites list, 
 their favorite cryptocurrencies in one place. All favorite coins IDs, are stored in Firebase
 Realtime Database.
 
+Crypto data is fetched from the CoinGecko API: https://api.coingecko.com/.
+
 ## Technologies Used:
 
 - Kotlin
